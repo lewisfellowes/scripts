@@ -1,6 +1,10 @@
 #!/bin/bash
+
+# Print hostname
 hostname=$(hostname)
-echo "This is host $hostname"
+echo "Host: $hostname"
+
+# Host maintenance
 # Run apt update and capture the output
 output=$(sudo apt update 2>&1)
 
@@ -29,4 +33,45 @@ if echo "$output" | grep -q "packages can be upgraded"; then
     fi
 else
     echo "No packages need to be upgraded."
+fi
+
+# Docker maintenance - Only run this if it's Sunday
+# Get the day of the week (0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thur, 5=Fri, 6=Sat)
+day_of_week=$(date +%w)
+if [ "$day_of_week" -eq 0 ]; then
+    echo "Today is Sunday. Performing Docker maintenance."
+
+    # Check for Docker
+    if ! command -v docker &> /dev/null; then
+        echo "Docker is not installed on $hostname. Skipping Docker maintenance."
+    else
+        echo "Docker is installed. Performing Docker maintenance."
+
+        # Check current Docker version
+        docker_version=$(docker --version)
+        echo "Current Docker version: $docker_version"
+
+        # Update Docker if necessary and capture the output
+        echo "Checking for Docker updates."
+        docker_update_output=$(sudo apt-get install --only-upgrade docker-ce docker-ce-cli containerd.io -y 2>&1)
+
+        # Filter out the lines that show the packages being upgraded
+        docker_upgraded_packages=$(echo "$docker_update_output" | grep -E "^(Setting up|Preparing to unpack|Unpacking) ")
+
+        # Check if any Docker components were upgraded
+        if [ -n "$docker_upgraded_packages" ]; then
+            echo "Docker components upgraded:"
+            echo "$docker_upgraded_packages" | awk '{print $NF}' | sort | uniq
+        else
+            echo "No Docker components were upgraded."
+        fi
+
+        # Restart running Docker containers
+        echo "Restarting all running Docker containers."
+        docker restart $(docker ps -q)
+
+        # Prune unused Docker images
+        echo "Removing unused Docker images."
+        docker image prune -f
+    fi
 fi
