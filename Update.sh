@@ -71,8 +71,5 @@ if [ "$day_of_week" -eq 0 ]; then
         echo "Restarting all running Docker containers."
         docker restart $(docker ps -q)
 
-        # Prune unused Docker images
-        echo "Removing unused Docker images."
-        docker image prune -f
     fi
 fi
