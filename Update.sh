@@ -1,6 +1,6 @@
 #!/bin/bash
 #v4 from VSCode PR
-#lewlew woz ere
+# Test PR from lewis fork
 # Print hostname
 hostname=$(hostname)
 echo "Host: $hostname"
