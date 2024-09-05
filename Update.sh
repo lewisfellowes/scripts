@@ -1,5 +1,6 @@
 #!/bin/bash
 #v4 from VSCode PR
+#lewlew woz ere
 # Print hostname
 hostname=$(hostname)
 echo "Host: $hostname"
