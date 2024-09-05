@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#v3 from VSCode
 # Print hostname
 hostname=$(hostname)
 echo "Host: $hostname"
