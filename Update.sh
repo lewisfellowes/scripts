@@ -22,18 +22,19 @@ if echo "$output" | grep -q "packages can be upgraded"; then
     upgrade_output=$(NEEDRESTART_MODE=a sudo apt upgrade -y 2>&1)
 
     # Filter out the lines that show the packages being upgraded
-    upgraded_packages=$(echo "$upgrade_output" | grep -E "^(Setting up|Preparing to unpack|Unpacking) ")
+    upgraded_packages=$(echo "$upgrade_output" | grep -E "^Inst|^Conf|^Unpacking|^Setting up")
 
     # Check if any packages were upgraded
     if [ -n "$upgraded_packages" ]; then
         echo "Upgraded packages:"
-        echo "$upgraded_packages" | awk '{print $NF}' | sort | uniq
+        echo "$upgraded_packages" | awk '{print $2}' | sort | uniq
     else
         echo "No packages were upgraded."
     fi
 else
     echo "No packages need to be upgraded."
 fi
+
 
 # Docker maintenance - Only run this if it's Sunday
 # Get the day of the week (0=Sun, 1=Mon, 2=Tue, 3=Wed, 4=Thur, 5=Fri, 6=Sat)
