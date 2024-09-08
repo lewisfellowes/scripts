@@ -49,7 +49,7 @@ if [ "$day_of_week" -eq 0 ]; then
     # Check for Docker
     if ! command -v docker &> /dev/null; then
         echo "Docker is not installed on $hostname. Skipping Docker maintenance."
-        exit 1
+        exit 0
     else
         echo "Docker is installed. Performing Docker maintenance."
 
