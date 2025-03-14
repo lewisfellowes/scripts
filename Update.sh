@@ -77,7 +77,6 @@ if [ "$day_of_week" -eq 0 ]; then
 
     # Restart running Docker containers
     echo "🔄 Restarting all running Docker containers..."
-    running_containers=$(docker ps -q)
     container_count=$(docker ps -q | wc -l)
 
     if [ "$container_count" -gt 0 ]; then
