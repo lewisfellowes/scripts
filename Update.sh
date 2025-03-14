@@ -75,7 +75,7 @@ if [ "$day_of_week" -eq 0 ]; then
         count=$(docker info --format '{{json .ContainersRunning}}')
         if [ -n "$running_containers" ]; then
             echo "Containers Running: $count"
-            docker restart $running_containers
+            docker restart "$running_containers"
         else
             echo "No running containers to restart."
         fi
