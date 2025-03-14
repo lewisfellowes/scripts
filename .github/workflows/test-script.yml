@@ -17,7 +17,7 @@ jobs:
         run: sudo apt-get install -y shellcheck
 
       - name: Lint Bash Script
-        run: shellcheck maintenance.sh
+        run: shellcheck Update.sh
 
       - name: Run Script in Dry Mode (Syntax Check)
-        run: bash -n maintenance.sh
+        run: bash -n Update.sh
