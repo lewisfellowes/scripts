@@ -1,0 +1,30 @@
+name: Build and Test Script
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up environment
+        run: |
+          sudo apt update
+          sudo apt install -y docker.io
+
+      - name: Make script executable
+        run: chmod +x your-script.sh  # Change to your actual script filename
+
+      - name: Run script
+        run: sudo ./your-script.sh  # Change to your actual script filename
+
+      - name: Verify script execution
+        run: echo "Script executed successfully!"
